@@ -1,6 +1,5 @@
 import 'package:accountant/Sharedwidget/appbarcustom.dart';
 import 'package:accountant/Sharedwidget/checkinout/checkinout.dart';
-import 'package:accountant/Sharedwidget/time.dart';
 import 'package:flutter/material.dart';
 
 class CahInScreen extends StatelessWidget {
@@ -10,7 +9,8 @@ class CahInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: customappbar(title: "Add Cash In Entry", Color: Colors.white),
+      appBar: customappbar(context,
+          title: "Add Cash In Entry", Color: Colors.white),
       body: Column(
         children: [
           Ceckinout(

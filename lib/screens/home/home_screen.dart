@@ -1,49 +1,136 @@
-import 'package:accountant/screens/cashin/cashin_screen.dart';
-import 'package:accountant/screens/cashout/cashout.dart';
+import 'package:accountant/screens/home/widget/appbar.dart';
+import 'package:accountant/screens/home/homebloc.dart';
+import 'package:accountant/screens/home/widget/details.dart';
+import 'package:accountant/screens/home/widget/netbalance.dart';
+import 'package:accountant/screens/home/widget/recordcash.dart';
+import 'package:accountant/screens/home/widget/search.dart';
 import 'package:flutter/material.dart';
 
-class Home_Screen extends StatelessWidget {
-  const Home_Screen({Key? key}) : super(key: key);
+class Home_Screen extends StatefulWidget {
+  @override
+  State<Home_Screen> createState() => _Home_ScreenState();
+}
+
+class _Home_ScreenState extends State<Home_Screen> {
+  var bloc = Homebloc();
+
+  Future<void> _showDurationDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text(
+              "Duration",
+              style: TextStyle(color: Colors.black),
+            ),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: [
+                  const Divider(
+                    height: 1,
+                    color: Colors.black,
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: bloc.alltime,
+                        onChanged: (value) {
+                          bloc.alltime = value ?? false;
+                          setState(() {});
+                        },
+                      ),
+                      const Text("AllTime")
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: bloc.today,
+                        onChanged: (value) {
+                          bloc.today = value ?? false;
+                          setState(() {});
+                        },
+                      ),
+                      const Text("Today")
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: bloc.yesterday,
+                        onChanged: (value) {
+                          bloc.yesterday = value!;
+                          setState(() {});
+                        },
+                      ),
+                      const Text("Yesterday")
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: bloc.thismonth,
+                        onChanged: (value) {
+                          setState(() {});
+                          bloc.thismonth = value!;
+                        },
+                      ),
+                      const Text("This Month")
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: bloc.lastmonth,
+                        onChanged: (value) {
+                          bloc.lastmonth = value!;
+                          setState(() {});
+                        },
+                      ),
+                      const Text("Last Month")
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: bloc.singleday,
+                        onChanged: (value) {
+                          bloc.singleday = value!;
+                          setState(() {});
+                        },
+                      ),
+                      const Text("Single Day")
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: bloc.daterange,
+                        onChanged: (value) {
+                          bloc.daterange = value!;
+                          setState(() {});
+                        },
+                      ),
+                      const Text("Date Range")
+                    ],
+                  ),
+                  ElevatedButton(onPressed: () {}, child: const Text("Apply"))
+                ],
+              ),
+            ),
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey.shade300,
-      appBar: AppBar(
-        backgroundColor: Colors.teal,
-        title: Row(
-          children: [
-            const Text("New Book"),
-            const SizedBox(
-              width: 100,
-            ),
-            const Icon(Icons.person),
-            const SizedBox(
-              width: 30,
-            ),
-            const Icon(Icons.picture_as_pdf),
-            Expanded(child: Container()),
-            const Icon(Icons.more_vert_outlined)
-          ],
-        ),
-      ),
+      appBar: appbar(context),
       body: Column(
         children: [
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), color: Colors.white),
-            child: const TextField(
-              keyboardType: TextInputType.emailAddress,
-              style: TextStyle(color: Colors.black, fontSize: 16),
-              cursorColor: Colors.teal,
-              decoration: InputDecoration(
-                icon: Icon(Icons.search),
-                hintText: "Search by Remark",
-                hintStyle: TextStyle(color: Colors.grey),
-              ),
-            ),
-          ),
+          Search(searchcontroller: bloc.sraechcontroller),
           const SizedBox(
             height: 10,
           ),
@@ -55,219 +142,44 @@ class Home_Screen extends StatelessWidget {
                   right: 40,
                   top: 8,
                 ),
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white),
-                  width: 220,
-                  height: 40,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Row(
-                      children: const [
-                        Icon(Icons.calendar_today),
-                        Text("Today (13 Mar 22)"),
-                      ],
+                child: InkWell(
+                  onTap: (() {
+                    _showDurationDialog(context);
+                  }),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white),
+                    width: 220,
+                    height: 40,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Row(
+                        children: const [
+                          Icon(Icons.calendar_today),
+                          Text("Today (13 Mar 22)"),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Container(
-                  width: 100,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Row(
-                      children: const [
-                        Icon(Icons.filter_list_alt),
-                        Text("Filter")
-                      ],
-                    ),
-                  ),
-                ),
-              )
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10), color: Colors.white),
-              height: 200,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 8, right: 8, top: 16, bottom: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
-                          "Net Balance",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          "0",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                  ),
-                  Divider(
-                    thickness: 1,
-                    color: Colors.grey.shade300,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 8, right: 8, top: 8, bottom: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
-                          "Total In (+)",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          "0",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 8, right: 8, top: 8, bottom: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
-                          "Total Out (-)",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          "0",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          netbalance(context),
+          const SizedBox(
+            height: 20,
+          ),
+          Expanded(
+            flex: 12,
+            child: ListView.builder(
+                itemCount: 10,
+                itemBuilder: ((context, index) {
+                  return Details(context);
+                })),
           ),
           Expanded(child: Container()),
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), color: Colors.white),
-            height: 120,
-            width: MediaQuery.of(context).size.width,
-            child: Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Row(
-                      children: const [
-                        Text(
-                          "Record",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 5),
-                          child: Text(
-                            "Income",
-                            style: TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 80,
-                        ),
-                        Text(
-                          "Record",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 5),
-                          child: Text(
-                            "Expense",
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20)),
-                        width: 160,
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.green)),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: ((context) => CahInScreen())));
-                            },
-                            child: const Text(
-                              "+ Cash In",
-                              style: TextStyle(fontSize: 18),
-                            )),
-                      ),
-                      const SizedBox(
-                        width: 30,
-                      ),
-                      Container(
-                        width: 160,
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.red)),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: ((context) => Cashoutscreen())));
-                            },
-                            child: const Text(
-                              "- Cash Out",
-                              style: TextStyle(fontSize: 18),
-                            )),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-          )
+          Recordcash(context),
         ],
       ),
     );

@@ -1,4 +1,6 @@
 import 'package:accountant/Sharedwidget/button.dart';
+import 'package:accountant/screens/createaccount/createaccount.dart';
+
 import 'package:accountant/screens/loginScreen/loginbloc.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +26,7 @@ class _Login_ScreenState extends State<Login_Screen> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -111,7 +114,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                       ),
                       Text(
                         bloc.errormsg,
-                        style: TextStyle(color: Colors.red),
+                        style: const TextStyle(color: Colors.red),
                       ),
                       const SizedBox(
                         height: 10,
@@ -121,6 +124,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                         child: Row(
                           children: [
                             Checkbox(
+                              activeColor: Colors.teal,
                               value: bloc.rememberMyIdChecked,
                               onChanged: (value) {
                                 bloc.rememberMyIdChecked = value!;
@@ -161,10 +165,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                       //   ),
                       // ),
                       CustomButton(
-                          backgroundcolor: const [
-                            Color(0xff027FAC),
-                            Color(0xff16CFF3)
-                          ],
+                          backgroundcolor: [Colors.teal, Colors.teal.shade600],
                           textname: "Sign in",
                           textcolor: Colors.white,
                           ontappress: () {
@@ -172,13 +173,15 @@ class _Login_ScreenState extends State<Login_Screen> {
                             setState(() {});
                           }),
                       CustomButton(
-                          backgroundcolor: const [
-                            Color(0xff027FAC),
-                            Color(0xff16CFF3)
-                          ],
+                          backgroundcolor: [Colors.teal, Colors.teal.shade600],
                           textname: "Create new account",
                           textcolor: Colors.white,
-                          ontappress: () {})
+                          ontappress: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CreateAccount()));
+                          })
                     ],
                   ),
                 ),

@@ -9,11 +9,12 @@ class Cashoutscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: customappbar(title: "Add Cash Out Entry", Color: Colors.white),
+      appBar: customappbar(context,
+          title: "Add Cash Out Entry", Color: Colors.white),
       body: Column(
         children: [
           Ceckinout(
-            items: [
+            items: const [
               'Food',
               'Health',
               'Petrol',

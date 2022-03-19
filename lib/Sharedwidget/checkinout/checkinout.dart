@@ -1,4 +1,5 @@
 import 'package:accountant/Sharedwidget/checkinout/checkbloc.dart';
+import 'package:accountant/screens/image/image.dart';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,10 @@ import 'package:flutter/material.dart';
 class Ceckinout extends StatefulWidget {
   List<String> items = [];
 
-  Ceckinout({Key? key, required this.items, required}) : super(key: key);
+  Ceckinout({
+    Key? key,
+    required this.items,
+  }) : super(key: key);
   @override
   State<Ceckinout> createState() => _CeckinoutState();
 }
@@ -104,7 +108,10 @@ class _CeckinoutState extends State<Ceckinout> {
           ),
         ),
         InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CameraWidget()));
+          },
           child: Padding(
             padding: const EdgeInsets.only(right: 159),
             child: Container(

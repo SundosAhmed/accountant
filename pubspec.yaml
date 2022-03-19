@@ -32,6 +32,15 @@ dependencies:
   flutter_secure_storage: ^5.0.2
   dropdown_button2: ^1.2.2
   intl: ^0.17.0
+  image_picker: ^0.8.4+11
+  flutter_login_facebook: ^1.4.1
+  
+  
+
+
+
+
+
 
 
 
